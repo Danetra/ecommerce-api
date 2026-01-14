@@ -22,4 +22,7 @@ func ApiRoutes(router *gin.Engine) {
 
 	roleRoute(api)
 	userRoute(api)
+	productCategoryRoute(api)
+	productRoute(api)
+	transactionRoute(api)
 }

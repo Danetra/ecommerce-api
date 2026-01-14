@@ -42,7 +42,7 @@ func JWTAuth() gin.HandlerFunc {
 
 		// optional: simpan claims ke context
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
-			c.Set("user_id", claims["user_id"])
+			c.Set("user_id", int(claims["user_id"].(float64)))
 			c.Set("username", claims["username"])
 		}
 
