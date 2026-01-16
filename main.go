@@ -9,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	migrate "github.com/rubenv/sql-migrate"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "ecommerce-api/docs"
 )
 
 func main() {
@@ -36,6 +40,7 @@ func main() {
 
 	log.Printf("Applied %d migrations\n", n)
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Static("/uploads", "./uploads")
 
 	routes.ApiRoutes(router)

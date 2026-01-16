@@ -11,6 +11,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login godoc
+// @Summary Login user
+// @Description Login dengan username & password
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param body body models.LoginRequest true "Login Request"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/login [post]
 func Login(c *gin.Context) {
 	var req struct {
 		Username string `json:"username"`
@@ -57,6 +69,17 @@ func Login(c *gin.Context) {
 	})
 }
 
+// Register godoc
+// @Summary Register user
+// @Description Register user baru
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param body body models.RegisterRequest true "Register Request"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/register [post]
 func Register(c *gin.Context) {
 	var req struct {
 		RoleID   int    `json:"role_id"`
