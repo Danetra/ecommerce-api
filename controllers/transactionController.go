@@ -2,7 +2,10 @@ package controllers
 
 import (
 	"ecommerce-api/config"
+	helper "ecommerce-api/helpers"
 	"ecommerce-api/models"
+	"ecommerce-api/responses"
+	"fmt"
 	"math"
 	"net/http"
 	"strconv"
@@ -78,7 +81,7 @@ func GetTransactions(c *gin.Context) {
 }
 
 func TransactionHistory(c *gin.Context) {
-	userID := c.GetInt("user_id") // dari JWT
+	userID := c.GetInt("user_id")
 
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -87,10 +90,10 @@ func TransactionHistory(c *gin.Context) {
 	rows, err := config.DB.Query(`
 		SELECT
 			t.id, t.qty, t.price, t.total, t.status, t.created_at,
-			p.id, p.name
+			p.id, p.name, p.image
 		FROM transactions t
 		JOIN products p ON p.id = t.product_id
-		WHERE t.buyer_id = $1 OR t.seller_id = $1
+		WHERE t.buyer_id = $1
 		ORDER BY t.created_at DESC
 		LIMIT $2 OFFSET $3
 	`, userID, limit, offset)
@@ -101,31 +104,35 @@ func TransactionHistory(c *gin.Context) {
 	}
 	defer rows.Close()
 
-	var data []models.Transaction
+	var data []responses.TransactionHistoryResponse
 
 	for rows.Next() {
-		var trx models.Transaction
-		var p models.Product
+		var trx responses.TransactionHistoryResponse
 
-		rows.Scan(
+		err := rows.Scan(
 			&trx.ID,
 			&trx.Qty,
 			&trx.Price,
 			&trx.Total,
 			&trx.Status,
 			&trx.CreatedAt,
-			&p.ID,
-			&p.Name,
+			&trx.Product.ID,
+			&trx.Product.Name,
+			&trx.Product.Image,
 		)
 
-		trx.Product = &p
+		trx.Product.Image = helper.FileURL(c, trx.Product.Image)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Scan error"})
+			return
+		}
+
 		data = append(data, trx)
 	}
 
 	var total int
 	config.DB.QueryRow(`
-		SELECT COUNT(*) FROM transactions
-		WHERE buyer_id = $1 OR seller_id = $1
+		SELECT COUNT(*) FROM transactions WHERE buyer_id = $1
 	`, userID).Scan(&total)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -143,7 +150,6 @@ func TransactionHistory(c *gin.Context) {
 func CreateTransaction(c *gin.Context) {
 	var req struct {
 		ProductID int `json:"product_id"`
-		BuyerID   int `json:"buyer_id"`
 		SellerID  int `json:"seller_id"`
 		Qty       int `json:"qty"`
 	}
@@ -153,45 +159,71 @@ func CreateTransaction(c *gin.Context) {
 		return
 	}
 
+	if req.Qty <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Qty minimal 1"})
+		return
+	}
+
+	buyerID := c.GetInt("user_id")
+
 	var (
 		price      float64
+		stock      int
 		categoryID int
 	)
 
 	err := config.DB.QueryRow(`
-		SELECT price, category_id
+		SELECT price, stock, category_id
 		FROM products
 		WHERE id = $1 AND is_active = true
-	`, req.ProductID).Scan(&price, &categoryID)
+	`, req.ProductID).Scan(&price, &stock, &categoryID)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Product tidak ditemukan"})
 		return
 	}
 
+	if stock < req.Qty {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Stock tidak mencukupi"})
+		return
+	}
+
 	total := price * float64(req.Qty)
 
-	_, err = config.DB.Exec(`
-		INSERT INTO transactions
-		(product_id, category_id, buyer_id, seller_id, qty, price, total, status)
+	tx, err := config.DB.Begin()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mulai transaksi"})
+		return
+	}
+
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+		INSERT INTO transactions (buyer_id, seller_id, product_id, qty, price, total, category_id, status)
 		VALUES ($1,$2,$3,$4,$5,$6,$7,'PENDING')
-	`,
-		req.ProductID,
-		categoryID,
-		req.BuyerID,
-		req.SellerID,
-		req.Qty,
-		price,
-		total,
-	)
+	`, buyerID, req.SellerID, req.ProductID, req.Qty, price, total, categoryID)
 
 	if err != nil {
+		fmt.Println("SQL ERROR:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Gagal membuat transaksi"})
 		return
 	}
 
+	_, err = tx.Exec(`
+		UPDATE products
+		SET stock = stock - $1
+		WHERE id = $2
+	`, req.Qty, req.ProductID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal update stock"})
+		return
+	}
+
+	tx.Commit()
+
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "Transaksi berhasil dibuat",
+		"message": "Transaksi berhasil",
 	})
 }
 

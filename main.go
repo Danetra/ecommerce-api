@@ -36,6 +36,8 @@ func main() {
 
 	log.Printf("Applied %d migrations\n", n)
 
+	router.Static("/uploads", "./uploads")
+
 	routes.ApiRoutes(router)
 	fmt.Println("Server running at http://localhost:8080")
 	router.Run(":8080")
