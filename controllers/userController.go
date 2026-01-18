@@ -4,6 +4,7 @@ import (
 	"ecommerce-api/config"
 	"ecommerce-api/requests"
 	"ecommerce-api/responses"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -51,6 +52,7 @@ func GetUserByID(c *gin.Context) {
 		"data":    user,
 	})
 }
+
 func UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 
@@ -62,11 +64,41 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	if req.Name == "" || req.Username == "" || req.RoleID == 0 {
+	if req.Name == "" || req.RoleID == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "name, username, dan role_id wajib diisi",
+			"error": "name dan role_id wajib diisi",
 		})
 		return
+	}
+
+	if req.Username != nil {
+		if *req.Username == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "username tidak boleh kosong",
+			})
+			return
+		}
+		var exists bool
+		err := config.DB.QueryRow(`
+			SELECT EXISTS (
+				SELECT 1 FROM users
+				WHERE username = $1 AND id <> $2
+			)
+		`, req.Username, id).Scan(&exists)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "Gagal validasi username",
+			})
+			return
+		}
+
+		if exists {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Username sudah digunakan user lain",
+			})
+			return
+		}
 	}
 
 	// update user
@@ -90,6 +122,7 @@ func UpdateUser(c *gin.Context) {
 	)
 
 	if err != nil {
+		fmt.Println("SQL Err: " + err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Gagal update user",
 		})

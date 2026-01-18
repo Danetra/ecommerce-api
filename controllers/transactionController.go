@@ -9,6 +9,7 @@ import (
 	"math"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -227,59 +228,114 @@ func CreateTransaction(c *gin.Context) {
 	})
 }
 
-func GetTransactionByID(c *gin.Context) {
-	id := c.Param("id")
+func TransactionPayment(c *gin.Context) {
+	trxID, _ := strconv.Atoi(c.Param("id"))
+	userID := c.GetInt("user_id")
 
-	var trx models.Transaction
-	var product models.Product
-	var category models.ProductCategory
-	var buyer models.User
-	var seller models.User
+	var req struct {
+		Status        string `json:"status"`
+		PaymentMethod string `json:"payment_method"`
+		ReferenceID   string `json:"reference_id"`
+	}
 
-	err := config.DB.QueryRow(`
-		SELECT 
-			t.id, t.qty, t.price, t.total, t.status, t.created_at,
-
-			p.id, p.name,
-			c.id, c.name,
-
-			b.id, b.name,
-			s.id, s.name
-		FROM transactions t
-		JOIN products p ON p.id = t.product_id
-		JOIN categories c ON c.id = t.category_id
-		JOIN users b ON b.id = t.buyer_id
-		JOIN users s ON s.id = t.seller_id
-		WHERE t.id = $1
-	`, id).Scan(
-		&trx.ID,
-		&trx.Qty,
-		&trx.Price,
-		&trx.Total,
-		&trx.Status,
-		&trx.CreatedAt,
-		&product.ID,
-		&product.Name,
-		&category.ID,
-		&category.Name,
-		&buyer.ID,
-		&buyer.Name,
-		&seller.ID,
-		&seller.Name,
-	)
-
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Transaksi tidak ditemukan"})
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
 		return
 	}
 
-	trx.Product = &product
-	trx.Category = &category
-	trx.Buyer = &buyer
-	trx.Seller = &seller
+	if req.Status != "SUCCESS" && req.Status != "FAILED" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Status harus SUCCESS atau FAILED",
+		})
+		return
+	}
+
+	tx, err := config.DB.Begin()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mulai transaksi"})
+		return
+	}
+	defer tx.Rollback()
+
+	var (
+		productID     int
+		qty           int
+		currentStatus string
+	)
+
+	err = tx.QueryRow(`
+		SELECT product_id, qty, status
+		FROM transactions
+		WHERE id = $1 AND buyer_id = $2
+		FOR UPDATE
+	`, trxID, userID).Scan(&productID, &qty, &currentStatus)
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Transaksi tidak ditemukan",
+		})
+		return
+	}
+
+	if currentStatus != "PENDING" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Transaksi sudah diproses",
+		})
+		return
+	}
+
+	if req.Status == "FAILED" {
+		_, err = tx.Exec(`
+			UPDATE products
+			SET stock = stock + $1
+			WHERE id = $2
+		`, qty, productID)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal restore stock"})
+			return
+		}
+
+		_, err = tx.Exec(`
+			UPDATE transactions
+			SET status = 'FAILED'
+			WHERE id = $1
+		`, trxID)
+	} else {
+		_, err = tx.Exec(`
+			UPDATE transactions
+			SET
+				status = $1,
+				payment_method = $2,
+				reference_id = $3,
+				paid_at = $4
+			WHERE id = $5
+		`,
+			req.Status,
+			req.PaymentMethod,
+			req.ReferenceID,
+			time.Now(),
+			trxID,
+		)
+	}
+
+	if err != nil {
+		fmt.Println("SQL ERROR:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Gagal update payment",
+		})
+		return
+	}
+
+	tx.Commit()
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Detail Transaction",
-		"data":    trx,
+		"message": "Payment berhasil diproses",
+		"data": gin.H{
+			"transaction_id": trxID,
+			"status":         req.Status,
+			"payment_method": req.PaymentMethod,
+			"reference_id":   req.ReferenceID,
+		},
 	})
 }
