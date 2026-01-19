@@ -24,16 +24,18 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/roles",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/roles",
                                     "path": [
                                         "api",
                                         "roles"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -54,6 +56,7 @@
                                 "method": "POST",
                                 "body": {
                                     "mode": "raw",
+                                    "raw": "{\r\n    \"name\": \"Admin\",\r\n    \"description\": \"admin\"\r\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -62,16 +65,18 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/roles",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/sapi/roles",
                                     "path": [
-                                        "api",
+                                        "sapi",
                                         "roles"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -93,17 +98,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/roles/2",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/roles/2",
                                     "path": [
                                         "api",
                                         "roles",
                                         "2"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -132,17 +139,19 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/roles/2",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/roles/2",
                                     "path": [
                                         "api",
                                         "roles",
                                         "2"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -164,17 +173,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/roles/4",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/roles/4",
                                     "path": [
                                         "api",
                                         "roles",
                                         "4"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -230,17 +241,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/product-categories/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/product-categories/1",
                                     "path": [
                                         "api",
                                         "product-categories",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -262,16 +275,18 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/product-categories",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/product-categories",
                                     "path": [
                                         "api",
                                         "product-categories"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -301,16 +316,18 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/product-categories",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/product-categories",
                                     "path": [
                                         "api",
                                         "product-categories"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -332,17 +349,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/product-categories/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/product-categories/1",
                                     "path": [
                                         "api",
                                         "product-categories",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -372,17 +391,19 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/product-categories/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/product-categories/1",
                                     "path": [
                                         "api",
                                         "product-categories",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -484,17 +505,19 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/products/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/products/1",
                                     "path": [
                                         "api",
                                         "products",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -516,16 +539,18 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/products",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/products",
                                     "path": [
                                         "api",
                                         "products"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -593,16 +618,18 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/products",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/products",
                                     "path": [
                                         "api",
                                         "products"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -624,17 +651,18 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/products/3",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/products/3",
                                     "path": [
-                                        "api",
                                         "products",
                                         "3"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -656,17 +684,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/products/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/products/1",
                                     "path": [
                                         "api",
                                         "products",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -730,7 +760,7 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/transactions/6/payment",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/transactions/6/payment",
                                     "path": [
                                         "api",
                                         "transactions",
@@ -738,10 +768,12 @@
                                         "payment"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -763,17 +795,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/transactions/history",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/transactions/history",
                                     "path": [
                                         "api",
                                         "transactions",
                                         "history"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -803,16 +837,18 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/transactions",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/transactions",
                                     "path": [
                                         "api",
                                         "transactions"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -868,17 +904,19 @@
                                 "body": {},
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/users/3",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/users/3",
                                     "path": [
                                         "api",
                                         "users",
                                         "3"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -908,17 +946,19 @@
                                 },
                                 "header": [],
                                 "url": {
-                                    "raw": "http://localhost:8080/api/users/1",
+                                    "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/users/1",
                                     "path": [
                                         "api",
                                         "users",
                                         "1"
                                     ],
                                     "host": [
-                                        "localhost"
+                                        "ecommerce-api-production-8ea6",
+                                        "up",
+                                        "railway",
+                                        "app"
                                     ],
-                                    "protocol": "http",
-                                    "port": "8080",
+                                    "protocol": "https",
                                     "query": [],
                                     "variable": []
                                 }
@@ -969,7 +1009,7 @@
                         "method": "POST",
                         "body": {
                             "mode": "raw",
-                            "raw": "{\r\n    \"name\": \"Administrator2\",\r\n    \"email\": \"admin2@admin.com\",\r\n    \"username\": \"administrator2\",\r\n    \"password\": \"admin123\",\r\n    \"role_id\": 1\r\n}",
+                            "raw": "{\r\n    \"name\": \"Administrator\",\r\n    \"email\": \"admin@admin.com\",\r\n    \"username\": \"administrator\",\r\n    \"password\": \"admin123\",\r\n    \"role_id\": 1\r\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -978,16 +1018,18 @@
                         },
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:8080/api/register",
+                            "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/register",
                             "path": [
                                 "api",
                                 "register"
                             ],
                             "host": [
-                                "localhost"
+                                "ecommerce-api-production-8ea6",
+                                "up",
+                                "railway",
+                                "app"
                             ],
-                            "protocol": "http",
-                            "port": "8080",
+                            "protocol": "https",
                             "query": [],
                             "variable": []
                         }
@@ -1017,16 +1059,18 @@
                         },
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:8080/api/login",
+                            "raw": "https://ecommerce-api-production-8ea6.up.railway.app/api/login",
                             "path": [
                                 "api",
                                 "login"
                             ],
                             "host": [
-                                "localhost"
+                                "ecommerce-api-production-8ea6",
+                                "up",
+                                "railway",
+                                "app"
                             ],
-                            "protocol": "http",
-                            "port": "8080",
+                            "protocol": "https",
                             "query": [],
                             "variable": []
                         }
